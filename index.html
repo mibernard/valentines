@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* This makes the body take up the full viewport height */
+        margin: 0; /* Removes default body margin */
+        background-image: url('bridge.gif'); /* Path to your GIF */
+        /* background-size: cover; Cover ensures the background covers the entire viewport */
+        /* background-position: center; Centers the background image */
+      }
+      .modal {
+        background-color: pink; /* Adjust the shade of pink as desired */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .nes-dialog p {
+        color: #ff0000; /* Match title color to the border */
+      }
+
+      #dialog-rounded {
+        background-color: #ffcccb; /* Light pink background for the dialog */
+        border-color: #ff0000; /* Red border for more pop */
+        /* background-color: #000000; Black background for contrast */
+      }
+      .modal-content {
+        /* overflow-y: auto; */
+        /* max-height: 90vh; */
+        /* max-width: 90vw; */
+      }
+      .nes-dialog p {
+        font-family: 'Press Start 2P', cursive;
+      }
+      .nes-dialog .dialog-menu {
+        display: flex;
+        justify-content: center; /* Aligns items horizontally in the center */
+        gap: 16px; /* Optional: adds space between buttons */
+        /* padding-top: 20px; Optional: adds space above the button menu */
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="valentinesModal" class="modal">
+      <div class="nes-dialog" id="dialog-rounded">
+        <p class="nes-text">Will you be my Valentine?</p>
+        <menu class="dialog-menu">
+          <button type="button" class="nes-btn is-success">Yes</button>
+          <button type="button" id="noBtn" class="nes-btn is-error">No</button>
+        </menu>
+      </div>
+    </div>
+    <script>
+      // Function to teleport the button
+      function teleportButton(button) {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const maxX = viewportWidth - button.offsetWidth;
+        const maxY = viewportHeight - button.offsetHeight;
+
+        button.style.position = 'fixed'; // Use 'fixed' to ensure it's relative to the viewport
+        button.style.top = Math.random() * maxY + 'px';
+        button.style.left = Math.random() * maxX + 'px';
+      }
+
+      // Getting the "No" button
+      const noButton = document.getElementById('noBtn');
+
+      // Adding mouseenter event for desktop
+      noButton.addEventListener('mouseenter', function () {
+        teleportButton(this);
+      });
+
+      // Adding touchstart event for mobile
+      // The 'touchstart' event is used to trigger the function on touching the element
+      noButton.addEventListener(
+        'touchstart',
+        function (event) {
+          event.preventDefault(); // Prevent the default touch action (like scrolling or zooming)
+          teleportButton(this);
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
