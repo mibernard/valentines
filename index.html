@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>♥ Natalie ♥</title>
     <link rel="stylesheet" href="https://unpkg.com/nes.css/css/nes.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 
@@ -14,8 +14,8 @@
         align-items: center;
         height: 100vh; /* This makes the body take up the full viewport height */
         margin: 0; /* Removes default body margin */
-        background-image: url('bridge.gif'); /* Path to your GIF */
-        /* background-size: cover; Cover ensures the background covers the entire viewport */
+        background-image: url('assets/bridge.gif'); /* Path to your GIF */
+        background-size: cover; /*Cover ensures the background covers the entire viewport */
         /* background-position: center; Centers the background image */
       }
       .modal {
@@ -24,6 +24,9 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        padding: 10px;
+        border-radius: 20px;
+        max-width: 80%;
       }
       .nes-dialog p {
         color: #ff0000; /* Match title color to the border */
@@ -33,12 +36,10 @@
         background-color: #ffcccb; /* Light pink background for the dialog */
         border-color: #ff0000; /* Red border for more pop */
         /* background-color: #000000; Black background for contrast */
+        border-radius: 20px;
+        margin-bottom: 10px;
       }
-      .modal-content {
-        /* overflow-y: auto; */
-        /* max-height: 90vh; */
-        /* max-width: 90vw; */
-      }
+
       .nes-dialog p {
         font-family: 'Press Start 2P', cursive;
       }
@@ -50,19 +51,78 @@
         margin: 0;
         padding: 0;
       }
+
+      .nes-btn {
+        margin-top: 1rem;
+      }
+      #pleaText {
+        display: none;
+      }
+      #noBtn {
+        z-index: 1;
+        transition: transform 0.5s ease;
+        position: relative; /* Required for movement */
+      }
     </style>
   </head>
   <body>
     <div id="valentinesModal" class="modal">
       <div class="nes-dialog" id="dialog-rounded">
-        <p class="nes-text">Will you be my Valentine?</p>
+        <p class="nes-text" id="messageText"></p>
+        <p id="pleaText"></p>
         <menu class="dialog-menu">
-          <button type="button" class="nes-btn is-success">Yes</button>
+          <button type="button" id="nextBtn" class="nes-btn"></button>
+          <button type="button" id="yesBtn" class="nes-btn is-success">Yes</button>
           <button type="button" id="noBtn" class="nes-btn is-error">No</button>
         </menu>
       </div>
+      <audio autoplay loop controls id="backgroundMusic">
+        <source src="assets/song.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
     </div>
+
     <script>
+      document.getElementById('yesBtn').style.display = 'none';
+      document.getElementById('noBtn').style.display = 'none';
+      const messages = [
+        'Hi Natalie :)',
+        'this is your pookie bear',
+        'i just wanted to let you know',
+        'You mean the world to me.',
+        '(more than valo)',
+        'together, every moment is special <3',
+        'so, what do you say?',
+        'Will you be mine?',
+      ];
+      const btnMessages = ['uh... hi', 'hi pookie', 'mhmm', 'ok and..', 'f you', 'thats crazy', 'to what...?', '...'];
+
+      let currentIndex = 0; // Start with the first message
+      document.addEventListener('DOMContentLoaded', (event) => {
+        // Initialize the modal with the first message from the array
+        document.getElementById('messageText').textContent = messages[0];
+        document.getElementById('nextBtn').textContent = btnMessages[0];
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', function () {
+        currentIndex++; // Move to the next message
+        if (currentIndex == 1) {
+          const audio = document.getElementById('backgroundMusic');
+          audio.volume = 0.2; // Set volume to 20% to not be too intrusive
+          audio.play();
+        }
+        if (currentIndex >= messages.length) {
+          document.getElementById('nextBtn').style.display = 'none'; // Hide the Next button
+          document.getElementById('yesBtn').style.display = 'block';
+          document.getElementById('noBtn').style.display = 'block';
+        } else {
+          document.getElementById('messageText').textContent = messages[currentIndex];
+          document.getElementById('nextBtn').textContent = btnMessages[currentIndex];
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', (event) => {});
+
       // Function to teleport the button
       function teleportButton(button) {
         const viewportWidth = window.innerWidth;
@@ -79,9 +139,9 @@
       const noButton = document.getElementById('noBtn');
 
       // Adding mouseenter event for desktop
-      noButton.addEventListener('mouseenter', function () {
-        teleportButton(this);
-      });
+      //   noButton.addEventListener('mousedown', function () {
+      //     teleportButton(this);
+      //   });
 
       // Adding touchstart event for mobile
       // The 'touchstart' event is used to trigger the function on touching the element
@@ -93,6 +153,60 @@
         },
         false
       );
+
+      document.addEventListener('mousemove', (event) => {
+        const btn = document.getElementById('noBtn');
+        const btnRect = btn.getBoundingClientRect();
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
+        const distanceThreshold = 100; // Distance in pixels when the button starts moving
+
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+        const distanceX = btnCenterX - mouseX;
+        const distanceY = btnCenterY - mouseY;
+        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+        if (distance < distanceThreshold) {
+          // Calculate a movement factor based on the distance and threshold
+          const moveFactor = 2 - distance / distanceThreshold;
+          // Define how far the button should move
+          const moveDistance = 200; // Max distance in pixels the button will move
+
+          // Calculate the new position
+          let moveX = moveDistance * moveFactor * (distanceX / Math.abs(distanceX));
+          let moveY = moveDistance * moveFactor * (distanceY / Math.abs(distanceY));
+
+          // Prevent the button from moving too far
+          moveX = isNaN(moveX) ? 0 : moveX;
+          moveY = isNaN(moveY) ? 0 : moveY;
+
+          btn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+          // Reset button position if the mouse is far away
+          btn.style.transform = 'translate(0, 0)';
+        }
+      });
+
+      const pleaText = document.getElementById('pleaText');
+      const msgText = document.getElementById('messageText');
+      let isFirstPress = true; // Flag to track if the button has been pressed
+
+      function appendPlease() {
+        if (isFirstPress) {
+          pleaText.style.display = 'block'; // Make the pleaText visible
+          msgText.style.display = 'none';
+          isFirstPress = false; // Update flag so this only happens once
+        }
+        pleaText.textContent += ' please'; // Append " Please" to the current text
+      }
+
+      // Listen for mousedown (desktop) and touchstart (mobile) events
+      noButton.addEventListener('mousedown', appendPlease);
+      //   noButton.addEventListener('touchstart', function (event) {
+      //     event.preventDefault(); // Prevent the default touch action
+      //     appendPlease();
+      //   });
     </script>
   </body>
 </html>
