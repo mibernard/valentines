@@ -63,19 +63,25 @@
         transition: transform 0.5s ease;
         position: relative; /* Required for movement */
       }
+
+      .dynamic-img {
+        max-height: 50vh; /* 50% of the viewport height, adjust as needed */
+      }
     </style>
   </head>
+
   <body>
     <div id="valentinesModal" class="modal">
       <div class="nes-dialog" id="dialog-rounded">
         <p class="nes-text" id="messageText"></p>
         <p id="pleaText"></p>
-        <menu class="dialog-menu">
+        <menu class="dialog-menu" id="dialog-menu">
           <button type="button" id="nextBtn" class="nes-btn"></button>
           <button type="button" id="yesBtn" class="nes-btn is-success">Yes</button>
           <button type="button" id="noBtn" class="nes-btn is-error">No</button>
         </menu>
       </div>
+
       <audio autoplay loop controls id="backgroundMusic">
         <source src="assets/song.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
@@ -95,7 +101,7 @@
         'so, what do you say?',
         'Will you be mine?',
       ];
-      const btnMessages = ['uh... hi', 'hi pookie', 'mhmm', 'ok and..', 'f you', 'thats crazy', 'to what...?', '...'];
+      const btnMessages = ['huh', 'hi pookie', 'mhmm', 'ok and..', 'f you', 'thats crazy', 'to what...?', '...'];
 
       let currentIndex = 0; // Start with the first message
       document.addEventListener('DOMContentLoaded', (event) => {
@@ -207,6 +213,29 @@
       //     event.preventDefault(); // Prevent the default touch action
       //     appendPlease();
       //   });
+
+      function yesButtonFunc() {
+        document.body.style.backgroundImage = "url('assets/fireworks2.gif')";
+        document.getElementById('yesBtn').style.display = 'none';
+        document.getElementById('noBtn').style.display = 'none';
+        pleaText.style.display = 'none';
+        msgText.style.display = 'block';
+        msgText.textContent = 'youre mine now hahahah';
+        msgText.innerHTML += '<br>here is a pic of us from last valentines';
+
+        const newImage = document.createElement('img');
+        newImage.src = 'assets/us.jpg'; // Your image path
+        newImage.alt = 'A special image'; // Alt text for accessibility
+        newImage.className = 'dynamic-img'; // Apply CSS class for styling
+        // Select the dialog menu div
+        const dialogMenu = document.getElementById('dialog-menu');
+
+        // Insert the new image as the first child of the dialog menu
+        dialogMenu.insertBefore(newImage, dialogMenu.firstChild);
+      }
+
+      document.getElementById('yesBtn').addEventListener('click', yesButtonFunc);
+      document.getElementById('yesBtn').addEventListener('touchstart', yesButtonFunc);
     </script>
   </body>
 </html>
