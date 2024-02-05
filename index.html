@@ -67,6 +67,11 @@
       .dynamic-img {
         max-height: 50vh; /* 50% of the viewport height, adjust as needed */
       }
+      @media only screen and (max-width: 600px) {
+        .dynamic-img {
+          max-height: 35vh;
+        }
+      }
     </style>
   </head>
 
@@ -209,10 +214,10 @@
 
       // Listen for mousedown (desktop) and touchstart (mobile) events
       noButton.addEventListener('mousedown', appendPlease);
-      //   noButton.addEventListener('touchstart', function (event) {
-      //     event.preventDefault(); // Prevent the default touch action
-      //     appendPlease();
-      //   });
+      noButton.addEventListener('touchstart', function (event) {
+        event.preventDefault(); // Prevent the default touch action
+        appendPlease();
+      });
 
       function yesButtonFunc() {
         document.body.style.backgroundImage = "url('assets/fireworks2.gif')";
