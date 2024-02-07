@@ -66,6 +66,7 @@
 
       .dynamic-img {
         max-height: 50vh; /* 50% of the viewport height, adjust as needed */
+        border-radius: 20px;
       }
       @media only screen and (max-width: 600px) {
         .dynamic-img {
@@ -217,6 +218,12 @@
       noButton.addEventListener('touchstart', function (event) {
         event.preventDefault(); // Prevent the default touch action
         appendPlease();
+        // const currentFontSize = parseFloat(window.getComputedStyle(this, null).getPropertyValue('font-size'));
+        // const currentPadding = parseFloat(window.getComputedStyle(this, null).getPropertyValue('padding'));
+
+        // // Decrease font size and padding by 10%, or to a minimum value to prevent it from becoming too small
+        // this.style.fontSize = (currentFontSize * 0.9 > 10 ? currentFontSize * 0.9 : 10) + 'px';
+        // this.style.padding = (currentPadding * 0.9 > 5 ? currentPadding * 0.9 : 5) + 'px';
       });
 
       function yesButtonFunc() {
@@ -226,7 +233,7 @@
         pleaText.style.display = 'none';
         msgText.style.display = 'block';
         msgText.textContent = 'youre mine now hahahahhahhaha';
-        msgText.innerHTML += '<br><br>btw here is a pic of us from last valentines arent we so cute';
+        msgText.innerHTML += '<br><br>happy valentines love you bb :) <3<3<3<3';
 
         const newImage = document.createElement('img');
         newImage.src = 'assets/us.jpg'; // Your image path
