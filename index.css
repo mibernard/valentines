@@ -1,0 +1,65 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* This makes the body take up the full viewport height */
+  margin: 0; /* Removes default body margin */
+  background-image: url('assets/bridge.gif'); /* Path to your GIF */
+  background-size: cover; /*Cover ensures the background covers the entire viewport */
+  /* background-position: center; Centers the background image */
+}
+.modal {
+  background-color: pink; /* Adjust the shade of pink as desired */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 20px;
+  max-width: 40%;
+}
+.nes-dialog p {
+  color: #ff0000; /* Match title color to the border */
+}
+
+#dialog-rounded {
+  background-color: #ffcccb; /* Light pink background for the dialog */
+  border-color: #ff0000; /* Red border for more pop */
+  /* background-color: #000000; Black background for contrast */
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.nes-dialog p {
+  font-family: 'Press Start 2P', cursive;
+}
+.nes-dialog .dialog-menu {
+  display: flex;
+  justify-content: center; /* Aligns items horizontally in the center */
+  gap: 16px; /* Optional: adds space between buttons */
+  /* padding-top: 20px; Optional: adds space above the button menu */
+  margin: 0;
+  padding: 0;
+}
+
+.nes-btn {
+  margin-top: 1rem;
+}
+#pleaText {
+  display: none;
+}
+#noBtn {
+  z-index: 1;
+  transition: transform 0.5s ease;
+  position: relative; /* Required for movement */
+}
+
+.dynamic-img {
+  max-height: 50vh; /* 50% of the viewport height, adjust as needed */
+  border-radius: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .dynamic-img {
+    max-height: 35vh;
+  }
+}
